@@ -1,5 +1,5 @@
 export function drawException(id, currentHour, guess){
-  var displayName = "u fucked up";
+  var displayName = "no display name";
   var isItShiny = false;
   var dayTime = "";
 

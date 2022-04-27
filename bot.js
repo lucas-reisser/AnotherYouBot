@@ -52,11 +52,6 @@ if (message.substring(0, 1) == '-') {
 
   switch(cmd) {
     // !ping
-    case 'embed':
-    console.log("")
-    console.log("Detected embed message request by \"" + user + "\" | " + userID);
-    requestEmbed(channelID);
-    break;
 		case 'debug':
     console.log("")
     console.log("Detected debug draw request by \"" + user + "\" | " + userID);
@@ -116,25 +111,35 @@ function vallahBruder(userID, channelID){
 	logResponse("");
 }
 
-function requestEmbed(channelID, user){
-  var rawMessage = message.substring(1).split(' ');
-  if(rawMessage[1]!=null){
-    sendEmbedMessage(channelID, 0, "", "" + rawMessage[1]);
-  }
-}
-
 //draw a pokemon (wip)
 async function drawAPokemon(userID,channelID){
-   var lastTimestamp = getCooldownForUser(userID);
 
-   if(lastTimestamp==null){
-     lastTimestamp = Date.now()-10800000;
-   }
+  var lastTimestamp = getCooldownForUser(userID);
 
-   if(Date.now()-lastTimestamp>10800000||lastTimestamp<0){
+  if(lastTimestamp==null){
+    lastTimestamp = Date.now()-10800000;
+  }
+
+  var rawMessage = message.substring(1).split(' ');
+
+  if(rawMessage[1]!=null){
+    var guess = rawMessage[1].toLowerCase();
+  }
+
+  if(Date.now()-lastTimestamp>10800000||lastTimestamp<0){
      var isItShiny = false;
      var id = getRandomPokemonID();
-     pokemonException(id,channelID,isItShiny,false);
+
+     if(checkForException(id) == true){
+       var currentDate = new Date();
+       var currentHour = currentDate.getHours();
+       var pokemon = drawException(id, currentHour, guess);
+       sentPokemonURL(pokemon[0], pokemon[1], pokemon[2], id, userID, channelID);
+     }
+     else {
+       var pokemon = getPokemonName(id, guess);
+       sentPokemonURL(pokemon[0], pokemon[1], pokemon[2], id, userID, channelID);
+     }
    }
    else{
      sendEmbedMessage(channelID, 3289650,"", "You have to wait another "+ millisToNormalTimeString(10800000-(Date.now()-lastTimestamp)) + " :smiling_face_with_tear:");
@@ -144,9 +149,21 @@ async function drawAPokemon(userID,channelID){
 
 //draw a specific pokemon without cooldown (admin only) (wip)
 async function debugPokemon(userID,channelID){
+
    var rawMessage = message.substring(1).split(' ');
+
    if(rawMessage[1]!=null){
-     pokemonException(rawMessage[1],channelID,false,true);
+     var id = rawMessage[1];
+     if(checkForException(id) == true){
+       var currentDate = new Date();
+       var currentHour = currentDate.getHours();
+       var pokemon = drawException(id, currentHour, guess);
+       sentPokemonURL(pokemon[0], pokemon[1], pokemon[2], id, userID, channelID);
+     }
+     else {
+       var pokemon = getPokemonName(id, guess);
+       sentPokemonURL(pokemon[0], pokemon[1], pokemon[2], id, userID, channelID);
+     }
    }
    else{
      bot.sendMessage({
@@ -158,26 +175,17 @@ async function debugPokemon(userID,channelID){
   }
 
 //checks if pokemon is on the blacklist, generates guess and hour (wip)
-function pokemonException(id, channelID, isItShiny, isDebug){
-  var rawMessage = message.substring(1).split(' ');
-  if(rawMessage[1]!=null){
-    var guess = rawMessage[1].toLowerCase();
-  }
-
+function checkForException(id){
   if(blacklist.includes(id)){
-    var currentDate = new Date();
-    var currentHour = currentDate.getHours();
-    console.log("Generated exception, new pokemon incoming");
-    var exception = drawException(id, currentHour, guess);
-    sentPokemonURL(exception[1], channelID, exception[0], id, isDebug, true, exception[2]);
+    return true;
   }
   else{
-    getPokemonName(id,channelID,isItShiny,isDebug);
+    return false;
   }
 }
 
 //gets pokemon name from pokeapi.co and checks if the guess was right
-function getPokemonName(id,channelID,isDebug){
+function getPokemonName(id){
       var name;
 
       https.get('https://pokeapi.co/api/v2/pokemon/'+id,(res)=>{
@@ -191,37 +199,27 @@ function getPokemonName(id,channelID,isDebug){
           res.on('end',()=>{
               var obj = JSON.parse(returnData);
               name = obj.name;
-
-  			var rawMessage = message.substring(1).split(' ');
-
-  			if(rawMessage[1]!=null){
-          var guess = rawMessage[1].toLowerCase();
+            })
 
   				if(name==guess){
             var isItShiny = true
   				}
-  			}
+        })
 
-        sentPokemonURL(name,channelID,isItShiny, id, isDebug, false, "");
-      })
-    })
+        var displayName = name[0].toUpperCase() + name.substring(1);
+
+        return [name, displayName, isItShiny];
   }
 
 //sends draw out into the discord chat
-async function sentPokemonURL(name,channelID,isItShiny, id, isDebug, isException, displayName){
-  var correctedName = name[0].toUpperCase() + name.substring(1);
-
-  if(isException==true){
-    correctedName = displayName;
-  }
-
+async function sentPokemonURL(name, displayName, isItShiny, id, userID, channelID){
   if(isItShiny){
-    sendEmbedMessage(channelID, 6826080,'https://play.pokemonshowdown.com/sprites/xyani-shiny/'+name+'.gif', mention + " | ◓ You've caught a :sparkles: _shiny_ :sparkles: **" + correctedName + "** GG!");
-    successfulDraw(id, correctedName, userID, isDebug);
+    sendEmbedMessage(channelID, 6826080,'https://play.pokemonshowdown.com/sprites/xyani-shiny/'+name+'.gif', mention + " | ◓ You've caught a :sparkles: _shiny_ :sparkles: **" + displayName + "** GG!");
+    successfulDraw(id, displayName, userID, isDebug);
   }
   else{
-		sendEmbedMessage(channelID, 6826080,'https://play.pokemonshowdown.com/sprites/xyani/'+name+'.gif', mention + " | ◓ You've caught a **" + correctedName + "** GG!");
-		successfulDraw(id, correctedName, userID, isDebug);
+		sendEmbedMessage(channelID, 6826080,'https://play.pokemonshowdown.com/sprites/xyani/'+name+'.gif', mention + " | ◓ You've caught a **" + displayName + "** GG!");
+		successfulDraw(id, displayName, userID, isDebug);
   }
 }
 
@@ -1267,7 +1265,7 @@ function drawException(id, currentHour, guess){
       }
     }
 
-    return [isItShiny, name, displayName];
+    return [name, displayName, isItShiny];
 }
 
 });

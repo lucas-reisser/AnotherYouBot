@@ -1,22 +1,24 @@
 {
-
-    "name": "anotheryou_bot",
-
-    "version": "1.0.0",
-
-    "description": "Another YOu Pokemon Bot yay",
-
-    "main": "bot.js",
-
-    "author": "AnotherYou",
-
-    "dependencies": {
-
-        "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
-
-        "winston": "^3.7.2"
-
-    }
-
+  "name": "anotheryou_bot",
+  "version": "1.0.0",
+  "description": "Another YOu Pokemon Bot yay",
+  "main": "bot.js",
+  "author": "AnotherYou",
+  "dependencies": {
+    "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "winston": "^3.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucas-reisser/AnotherYouBot.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucas-reisser/AnotherYouBot/issues"
+  },
+  "homepage": "https://github.com/lucas-reisser/AnotherYouBot#readme"
 }
-
