@@ -1,0 +1,66 @@
+unown 201 same
+deoxys 386 no
+shellos 422 same
+gastrodon 423 same
+rotom 479 same
+arceus 493 same
+tornadus 641 no
+thundures 642 no
+landorus 645 no
+kyurem 646 same
+keldeo 647 no
+jangmo-o 782 no
+lycanroc 745 no
+silvally 773 same
+castform 351 same
+kyogre ! 382 kk
+groudon ! 383 kk
+burmy ! 412 kk
+wormadam ! 413 no
+cherrim ! 421 kk
+dialga ! 483 kk
+palkia ! 484 kk
+giratina ! 487 no
+shaymin ! 492 no
+basculin ! 550 no
+darmanitan ! 555 no
+deerling 585 same
+sawsbuck 586 same
+meloetta ! 648 no
+genesect ! 649 kk
+greninja ! 658 kk
+vivillon ? 666 same
+flabebe ! 669 kk
+floette ! 670 kk
+florges ! 671 kk
+furfrou ! 676 kk
+aegislash ! 681 no
+pumpkaboo * 710 no
+gourgeist * 711 no
+xerneas ! 716 kk
+zygarde 718 no
+hoopa ? 720 same
+oricorio ? 741 no
+wishiwashi ! 746 no
+minior ! 774 no
+mimikyu ? 778 no
+necrozma 800 same
+magearna ! 801 kk
+cramorant ? 845 same
+toxtricity 849 no
+sinistea ! 854 kk
+polteageist ! 855 kk
+alcremie ??? 869 same
+eiscue ! 875 no
+morpeko ! 877 no
+zacian ! 888 kk
+zamazenta ! 889 kk
+eternatus ! 890 kk
+urshifu ! 892 no
+zarude ! 893 kk
+calyrex ? 898 same
+reshiram ! 643 kk
+zekrom ! 644 kk
+solgaleo ! 791 kk
+lunala ! 792 kk
+marshadow ! 802 kk
