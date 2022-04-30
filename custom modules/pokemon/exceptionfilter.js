@@ -1,5 +1,5 @@
-export function drawException(id, currentHour, guess){
-  var displayName = "no display name";
+function drawException(id, currentHour, guess){
+  var displayName = "u fucked up";
   var isItShiny = false;
   var dayTime = "";
 
@@ -715,8 +715,7 @@ export function drawException(id, currentHour, guess){
          if(dayTime == "midnight"){
            name = "lycanroc-midnight";
            displayName = "Lycanroc";
-      }
-      console.log(name + " " + dayTime + " " + currentHour);
+         }
       }
       if(id==746){
         if("wishiwashi"==guess){
@@ -983,5 +982,11 @@ export function drawException(id, currentHour, guess){
       }
     }
 
-    return [isItShiny, name, displayName];
+    return [name, displayName, isItShiny];
 }
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max) + 1;
+}
+
+module.exports = { drawException };

@@ -1,8 +1,9 @@
 {
   "name": "anotheryou_bot",
   "version": "1.0.0",
-  "description": "Another YOu Pokemon Bot yay",
+  "description": "Another You Pokemon Bot yay",
   "main": "bot.js",
+  "type": "commonjs",
   "author": "AnotherYou",
   "dependencies": {
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
