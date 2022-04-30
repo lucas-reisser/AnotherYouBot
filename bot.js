@@ -85,6 +85,12 @@ if (message.substring(0, 1) == '-') {
     }
 		break;
 
+    case 'fact':
+    console.log("")
+    console.log("Detected fact request by \"" + user + "\" | " + userID);
+    randomFact(channelID);
+    break;
+
     case 'fade':
     console.log("")
     console.log("Detected fade request by \"" + user + "\" | " + userID);
@@ -101,6 +107,12 @@ if (message.substring(0, 1) == '-') {
     console.log("")
     console.log("Deteced match size request by \"" + user + "\" | " + userID);
     matchMaker(channelID, message);
+    break;
+
+    case 'meme':
+    console.log("");
+    console.log("Deteced meme request by \"" + user + "\" | " + userID);
+    pickMeme(channelID);
     break;
 
     case 'pokemon':
@@ -243,6 +255,7 @@ function helpRequest(channelID){
   var newMessage = "-am i uwu or -am i uwu? | tells you your uwu level\n";
   newMessage += "\n -bing | shows you wide cena eating some bing chilling\n";
   newMessage += "\n -bruder | tells your either \"muss los\" or \"was los\"\n";
+  newMessage += "\n -fact | shows you a random fact\n";
   newMessage += "\n -fade | shows you fade's skillcap\n";
   newMessage += "\n -help | shows you this list\n";
   newMessage += "\n -match | tag someone to find out your match rate\n";
@@ -360,6 +373,27 @@ function checkForException(id){
   else{
     return false;
   }
+}
+
+function randomFact(channelID){
+  var fact;
+
+  https.get('https://uselessfacts.jsph.pl/random.json?language=en',(res)=>{
+      res.setEncoding('utf8');
+      let returnData = '';
+
+      res.on('data',(chunk)=>{
+          returnData += chunk;
+      })
+
+      res.on('end',()=>{
+          var obj = JSON.parse(returnData);
+          fact = obj.text;
+
+      sendEmbedMessage(channelID, 0, "", fact);
+      logResponse(" with \"" + fact + "\"");
+      })
+    })
 }
 
 //gets pokemon name from pokeapi.co and checks if the guess was right
