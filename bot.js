@@ -46,7 +46,7 @@ autorun: true
 
 bot.on('ready', function (evt) {
 
-console.log("Connected and logged in as: " + bot.username + " | " + bot.id);
+console.log("Connected and logged in as: " + bot.username);
 
 });
 
