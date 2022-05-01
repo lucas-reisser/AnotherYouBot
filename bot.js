@@ -105,7 +105,7 @@ if (message.substring(0, 1) == '-') {
 
     case 'match':
     console.log("")
-    console.log("Deteced match size request by \"" + user + "\" | " + userID);
+    console.log("Deteced match request by \"" + user + "\" | " + userID);
     matchMaker(channelID, message);
     break;
 
@@ -321,7 +321,7 @@ async function drawAPokemon(userID,channelID){
        var currentDate = new Date();
        var currentHour = currentDate.getHours();
        var pokemon = exceptionHandler.drawException(id, currentHour, guess);
-       sentPokemonURL(pokemon[0], pokemon[1], pokemon[2], id, userID, channelID, false);
+       sentPokemonURL(pokemon[0], pokemon[1], pokemon[2], id, pokemon[3], userID, channelID, false);
      }
      else {
        getPokemonName(id, guess, userID, channelID, false);
@@ -416,23 +416,30 @@ async function getPokemonName(id, guess,userID,channelID,isDebug){
   				if(name==guess){
             var isItShiny = true
   				}
+          else {
+            var isItShiny = false
+          }
 
           displayName = name[0].toUpperCase() + name.substring(1);
 
-          sentPokemonURL(name, displayName, isItShiny, id, userID, channelID, isDebug);
+          sentPokemonURL(name, displayName, isItShiny, id, 0, userID, channelID, isDebug);
           })
         })
   }
 
 //sends draw out into the discord chat
-async function sentPokemonURL(name, displayName, isItShiny, id, userID, channelID, isDebug){
+async function sentPokemonURL(name, displayName, isItShiny, id, variant, userID, channelID, isDebug){
   if(isItShiny){
     sendEmbedMessage(channelID, 6826080,'https://play.pokemonshowdown.com/sprites/xyani-shiny/'+name+'.gif', mention + " | ◓ You've caught a :sparkles: _shiny_ :sparkles: **" + displayName + "** GG!");
     successfulDraw(id, displayName, userID, isDebug);
+    var newCooldown = getCooldownForUser(userID);
+    console.log("Save file: " + userID + " | " + id + " | " + variant + " | " + isItShiny + " | " + newCooldown);
   }
   else{
 		sendEmbedMessage(channelID, 6826080,'https://play.pokemonshowdown.com/sprites/xyani/'+name+'.gif', mention + " | ◓ You've caught a **" + displayName + "** GG!");
 		successfulDraw(id, displayName, userID, isDebug);
+    var newCooldown = getCooldownForUser(userID);
+    console.log("Save file: " + userID + " | " + id + " | " + variant + " | " + isItShiny + " | " + newCooldown);
   }
 }
 

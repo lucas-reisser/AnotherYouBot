@@ -982,7 +982,7 @@ function drawException(id, currentHour, guess){
       }
     }
 
-    return [name, displayName, isItShiny];
+    return [name, displayName, isItShiny, variant];
 }
 
 function getRandomInt(max) {
